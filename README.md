@@ -22,7 +22,7 @@ For an environment and observations as simple as I have outlined, I decided to u
 
 The loss function I used was the simple mean-squared-error. 
 
-Finally, for the optimizer, I decided to use AdamW in PyTorch since this seems to have subsumed the original Adam optimizer since the publication of the paper by Ilya Loshchilov and Frank Hutter (https://arxiv.org/abs/1711.05101) on arxiv detailing the errors with the Adam gradient descent procedure.
+Finally, for the optimizer, I decided to use AdamW in PyTorch since this seems to have subsumed the original Adam optimizer since the publication of the paper by Ilya Loshchilov and Frank Hutter (https://arxiv.org/abs/1711.05101), on arxiv, detailing the errors with the Adam gradient descent procedure.
 
 ## Training
 
