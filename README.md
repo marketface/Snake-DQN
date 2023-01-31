@@ -4,7 +4,7 @@ For this project, I'll be using PyTorch as the neural network library of choice.
 
 ### Environment
 
-The environment consists of a 50x50 array of values, each of which is coded such that it represents different components of the game. For example, 1s are the body of the snake, 2 is the apple (or whatever it is the snake eats), and everything else is 0. With this, I can have a full representation of the game states in a single concise array.
+The environment consists of a 50x50 array of values, each of which is coded such that it represents different components of the game. For example, 1s are the body of the snake, 2 is the apple (or whatever it is the snake eats), and everything else is 0. With this, I can have a full representation of the game states in a single, concise array.
 
 ### Observations
 
