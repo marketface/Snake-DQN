@@ -18,3 +18,5 @@ I trained the network for a total of 10000 episodes overnight (~ 5 hours of trai
 Here is the agent after 10000 episodes:
 
 https://user-images.githubusercontent.com/39159387/215635749-9896dda9-e7c0-4a71-8553-9685a2136c7e.mp4
+
+Admittedly, there's a clear bug in my game code which allows food to spawn inside of the snake's body, but it's impressive to see the agent work around this (at least that's my excuse...).
