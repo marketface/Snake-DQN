@@ -3,7 +3,7 @@ The classic game of snake gets a Deep Q Network thrown at it.
 To do this I will be using PyTorch as the neural network library of choice.
 
 ### The Environement
-The environement consists of a 50x50 array of values, each of which is coded such that it represents different components of the game. For example, 1s are the body of the snake, 2 is the apple (or whatever it is that you're trying to eat), and everything else is 0. With this, we have a fully observable representation of the game states.
+The environment consists of a 50x50 array of values, each of which is coded such that it represents different components of the game. For example, 1s are the body of the snake, 2 is the apple (or whatever it is the snake eats), and everything else is 0. With this, we have a fully observable representation of the game states.
 ### The Observations
 Observations for our agent will be 12-dimensional binary array of features for the directions of danger and food. The first 8 features indicate dangers around the snake's head. There are 8 of these because there are 8 positions *around* the snake's head. This means that the snake is very nearsighted (since the features only one directions of danger out to one unit from the head of the snake), but let's see how well the agent can do with this as a starting point. Also, the last 4 features just point to the food. If the food is at a diagonal position from the head, then 2 of these features will be active.
 ### The Reward Function:
