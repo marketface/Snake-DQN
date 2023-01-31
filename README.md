@@ -16,5 +16,5 @@ To train the model, I read of about a kind of bootstrapping procedure to increas
 I trained the network for a total of 10000 episodes overnight (~ 5 hours of training), let's check out the results.
 ## Results
 Here is the agent after 10000 episodes:
-https://user-images.githubusercontent.com/39159387/215635749-9896dda9-e7c0-4a71-8553-9685a2136c7e.mp4
 
+https://user-images.githubusercontent.com/39159387/215635749-9896dda9-e7c0-4a71-8553-9685a2136c7e.mp4
