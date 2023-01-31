@@ -14,7 +14,7 @@ Also, the last 4 features just point to the food. If the food is at a diagonal p
 
 ### Reward Function:
 
-This is pretty simple: +10 for each apple the snake eats or -10 if the snake dies. I tried more complicated reward functions, but this seems to do better while being simpler.
+Pretty simple: +10 for each apple the snake eats or -10 if the snake dies. I tried more complicated reward functions, but this seems to do better while being simpler.
 
 ### Model
 
