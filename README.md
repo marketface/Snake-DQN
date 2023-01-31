@@ -34,7 +34,7 @@ I trained the network for a total of 10000 episodes overnight (~ 5 hours of trai
 
 ## Results
 
-Here is the agent after 10000 episodes getting itself out of some pretty sticky situations:
+Here is the agent, after 10000 games under its belt, getting itself out of some pretty sticky situations:
 
 
 https://user-images.githubusercontent.com/39159387/215646438-cc913b52-aa73-4d87-ab57-ea144e63e7ee.mp4
