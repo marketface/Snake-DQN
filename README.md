@@ -1,7 +1,6 @@
 # Snake-DQN
 
-The classic game of snake gets a Deep Q Network thrown at it.
-To do this I will be using PyTorch as the neural network library of choice.
+For this project, I'll be using PyTorch as the neural network library of choice.
 
 ### Environment
 
@@ -41,4 +40,4 @@ Here is the agent after 10000 episodes getting itself out of some pretty sticky 
 https://user-images.githubusercontent.com/39159387/215646438-cc913b52-aa73-4d87-ab57-ea144e63e7ee.mp4
 
 
-Admittedly, there's a clear bug in my game code which allows food to spawn inside of the snake's body, but it's impressive to see the agent work around this (at least that's my excuse...).
+Admittedly, there's a clear bug in my game code which allows food to spawn inside of the snake's body, but it's impressive to see the agent work around this (at least that's my excuse).
