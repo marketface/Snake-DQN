@@ -15,4 +15,6 @@ For training, I used an experience replay buffer to sample random state-action p
 To train the model, I read of about a kind of bootstrapping procedure to increase stability of training. This entails training two networks at once (another reason for the light network architecture), a target network and a training network. The training network is used to generate current guesses for the q-values: it is updated at every timestep. The target network gets updated every 5 episodes with the weights of the training network. The reason for this is to stablize the predictions of future q-values when used to optimize the training network. This gives us labels to compute a loss for optimizing the network.
 I trained the network for a total of 10000 episodes overnight (~ 5 hours of training), let's check out the results.
 ## Results
-**Average apples per episode:
+Here is the agent after 10000 episodes:
+https://user-images.githubusercontent.com/39159387/215635749-9896dda9-e7c0-4a71-8553-9685a2136c7e.mp4
+
