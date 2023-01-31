@@ -5,16 +5,15 @@ from collections import deque
 from snake_env import SnakeEnvironment
 
 pygame.init()
-pygame.font.init()
-font = pygame.font.SysFont('Calibri', 30)
+font = pygame.font.SysFont('', 30)
+apples_font = pygame.font.SysFont('', 30)
 danger_text = font.render('Direction of danger', True, (255,255,255))
 food_text = font.render('Direction(s) of food', True, (255,255,255))
 display = pygame.display.set_mode((900,600))
-display.blit(danger_text, (630, 50))
-display.blit(food_text, (630, 300))
 
-def update_screen(board, obs):
+def update_screen(board, obs, n_apples):
     '''Function to display board and observation states through pygame'''
+    display.fill((0))
     # display board
     for i,j in np.ndindex(board.shape):
         if board[i,j] == 0:
@@ -33,7 +32,7 @@ def update_screen(board, obs):
         if i == 0 or i == 3:
             vertical_spacing = 52
             # left
-            if i == 3:
+            if i == 0:
                 horizontal_spacing = 52 * 2
                 
             if active == 1:
@@ -63,11 +62,11 @@ def update_screen(board, obs):
                 pygame.draw.rect(display, (255,0,0), pygame.Rect(675+horizontal_spacing, 100+vertical_spacing, 50, 50))
             else:
                 pygame.draw.rect(display, (255,255,255), pygame.Rect(675+horizontal_spacing, 100+vertical_spacing, 50, 50))
-        # top and bottom
+        # bottom and top
         elif i == 6 or i == 7:
             horizontal_spacing = 52
             # bottom
-            if  i == 7:
+            if  i == 6:
                 vertical_spacing = 52 * 2
             if active == 1:
                 pygame.draw.rect(display, (255,0,0), pygame.Rect(675+horizontal_spacing, 100+vertical_spacing, 50, 50))
@@ -77,6 +76,7 @@ def update_screen(board, obs):
         # right and left
         elif i == 8 or i == 9:
             vertical_spacing = 52
+            # right
             if i == 8:
                 horizontal_spacing = 52 * 2
             if active == 1:
@@ -92,14 +92,19 @@ def update_screen(board, obs):
                 pygame.draw.rect(display, (0,255,0), pygame.Rect(675+horizontal_spacing, 350+vertical_spacing, 50, 50))
             else:
                 pygame.draw.rect(display, (255,255,255), pygame.Rect(675+horizontal_spacing, 350+vertical_spacing, 50, 50))
-        
+    
+    apple_count_text = apples_font.render(f'Apples Eaten: {n_apples}', True, (255,255,255))
+    display.blit(danger_text, (660, 50))
+    display.blit(food_text, (660, 300))
+    display.blit(apple_count_text, (680, 550))
     pygame.display.flip()
 
 BOARD = np.zeros((50,50))
-LOADED_MODEL = 'models/10000 epoch run (50x50)/model-50x50-max560-average115.0-ep4800.pt'
+LOADED_MODEL = 'models/10000 epoch run (50x50)/model-50x50-max380-average92.9-ep10000.pt'
 
 board = np.zeros((len(BOARD), len(BOARD[0])))
 snake = SnakeEnvironment(deque([(np.random.randint(0,50), np.random.randint(0,50))]), board=board, epsilon=0, loaded_model=LOADED_MODEL)
+print(sum(p.numel() for p in snake.model.parameters()))
 
 for i in range(1000):
     apple_count = 0
@@ -123,7 +128,7 @@ for i in range(1000):
             break
         
         # to display the agent playing the game
-        update_screen(board, current_obs)
+        update_screen(board, current_obs, apple_count)
             
         current_obs = new_obs
         

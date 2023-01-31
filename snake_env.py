@@ -76,8 +76,6 @@ class SnakeEnvironment():
         if np.random.random() < self.epsilon:
             choice = np.random.randint(0,4)
         else:
-            #state = self.get_Q(state)
-            # print(state)
             state = torch.tensor(state, dtype=torch.float32).cuda()
             prediction = self.model.forward(state)
             choice = torch.argmax(prediction).cpu()
@@ -93,7 +91,6 @@ class SnakeEnvironment():
         '''Function to update environment state step-by-step'''
         is_new_food = False
         self.reward = 0
-        previous_x, previous_y = self.snake_x, self.snake_y
         # left
         if action == 0:
             self.snake_x -= 1
@@ -108,16 +105,6 @@ class SnakeEnvironment():
             self.snake_y += 1
         
         self.is_game_over(self.snake_x, self.snake_y)
-        
-        # if np.linalg.norm([previous_x, previous_y]) > np.linalg.norm([self.snake_x, self.snake_y]):
-        #     self.reward = 1
-        # else:
-        #     self.reward = -1
-        
-        # snake_length = len(self.snake_body)
-        # apple_delta_x = self.snake_x - self.food_pos[0]
-        # apple_delta_y = self.snake_y - self.food_pos[1]
-        # obs = [self.snake_x, self.snake_y, apple_delta_x, apple_delta_y, snake_length]
         
         obs = self.get_observation()
         
@@ -149,8 +136,8 @@ class SnakeEnvironment():
             int(self.is_collison(self.snake_x-1, self.snake_y)),    # danger left
             int(self.is_collison(self.snake_x-1, self.snake_y-1)),  # danger top left
             int(self.is_collison(self.snake_x-1, self.snake_y+1)),  # danger bottom left
-            int(self.is_collison(self.snake_x, self.snake_y+1)),    # danger up
-            int(self.is_collison(self.snake_x, self.snake_y-1)),    # danger down
+            int(self.is_collison(self.snake_x, self.snake_y+1)),    # danger down
+            int(self.is_collison(self.snake_x, self.snake_y-1)),    # danger up
             # where is the food
             int(self.snake_x < self.food_pos[0]), # food right
             int(self.snake_x > self.food_pos[0]), # food left
@@ -179,11 +166,14 @@ class SnakeEnvironment():
         if len(self.memory) < MIN_MEMORY:
             return 
         else:
+            # training flag
             self.is_training = True
+            # sampling a batch from the replay buffer
             sample = random.sample(self.memory, BATCH_SIZE)
+            # fishing out current states from the batch, and passing them through the model to get current estimated q-values
             current_states = torch.tensor(np.array([transition[0] for transition in sample]), dtype=torch.float32, requires_grad=False).cuda()
             current_qs = self.model.forward(current_states).cpu().detach().numpy()
-            
+            # same thing but for future q-values predicted from next states
             new_states = torch.tensor(np.array([transition[3] for transition in sample]), dtype=torch.float32, requires_grad=False).cuda()
             future_qs = self.target_model.forward(new_states).cpu().detach().numpy()
             
@@ -191,6 +181,7 @@ class SnakeEnvironment():
             y = []
             
             for idx, (current_state, action, reward, new_state, done) in enumerate(sample):
+                # computing the bellman equation to update q-values
                 if not done:
                     max_future_q = np.max(future_qs[idx])
                     new_q = reward + DISCOUNT * max_future_q
@@ -202,17 +193,18 @@ class SnakeEnvironment():
                 
                 x.append(current_state)
                 y.append(current_q)
-            
+            # fitting a single batch of data
             self.running_loss += self.model.fit(torch.tensor(np.array(x), dtype=torch.float32), torch.tensor(np.array(y), dtype=torch.float32))
-            
+            # episode counter for updating target model
             if terminal_state:
                 self.target_update_counter += 1
-            
+            # the target model update
             if self.target_update_counter > UPDATE_FREQ:
                 self.target_model.load_state_dict(self.model.state_dict())
                 self.target_update_counter = 0
     
     def update_replay_memory(self, transition):
+        '''This just adds a game step to the replay buffer'''
         self.memory.append(transition)
     
     def build_model(self):
